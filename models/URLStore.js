@@ -5,10 +5,4 @@ var URLShort = new mongoose.Schema({
   shortened:String
 })
 
-URLShort.methods.returnUrl = function(id,cb){
-  this.where({
-    shortened:id
-  }).findOne(cb(err,obj));
-}
-
 module.exports = mongoose.model('URLTable',URLShort);

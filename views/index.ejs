@@ -1,12 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>URL Shortener</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1>ShortMe</h1>
-    <p>A URL shortener that is business friendly!!</p>
-    <a href="/shorten">Click to shorten URL</a>
-  </body>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Shorten Me</title>
+  <link rel="stylesheet" type="text/css" href="/bower_components/semantic/dist/semantic.min.css">
+  <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <style type="text/css">
+
+    .masthead.segment {
+      min-height: 600px;
+      padding: 1em 0em;
+    }
+
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+
+    .masthead h1.ui.header {
+      margin-top: 1.7em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
+
+    .generated {
+      font-size:2em;
+      display: inline;
+      font-weight: bolder;
+    }
+  </style>
+
+</head>
+<body>
+
+<!-- Page Contents -->
+<div class="pusher">
+  <div class="ui inverted vertical masthead center aligned segment">
+
+    <div class="ui container">
+      <div class="ui large secondary inverted pointing menu">
+        <!-- <div class="right item">
+          <a class="ui inverted button">Log in</a>
+          <a class="ui inverted button">Sign Up</a>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="ui text container">
+      <h1 class="ui inverted header">
+        Shorten Me
+      </h1>
+      <h2 class="ui inverted header">
+        May the "link" be with you
+      </h2>
+      <br>
+      <div class="ui icon fluid labeled large input">
+        <input placeholder="Paste URL" type="text">
+        <i class="inverted circular play link icon"></i>
+      </div>
+
+      <div class="ui inverted centered message">
+        <div class="content">
+          <a class="generated">http://localhost:3000/</a>
+          <i class="inverted circular external share link big icon copyIcon"></i>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
 </html>
