@@ -2,29 +2,27 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 
-var SIZE_OF_STRING = 6;
+var URLStore = require('../models/URLStore.js');
+
+var SIZE_OF_STRING = 7;
 
 var table = {};
 
-function makeid(){
+function makeid(cb){
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
     for( var i=0; i < SIZE_OF_STRING; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-}
-
-
-function addUrl(url){
-  var currentString = makeid();
-  while(table[currentString]){
-    currentString = makeid();
-    //modify SIZE_OF_STRING if table is filled up with strings
-  }
-  table[currentString] = url;
-  return currentString;
+    URLStore.where({shortened:text})
+    .findOne(function(err,obj){
+      if(err)
+        console.log('Error performing database operation')
+      if(obj){
+        return makeid(cb);
+      }else{
+        cb(text);
+      }
+    })
 }
 
 /* GET home page. */
@@ -37,7 +35,14 @@ router.get('/shorten',function(req,res){
 })
 
 router.post('/shorten',function(req,res){
-  res.json({url:req.body.url,shortUrl:addUrl(req.body.url)});
+  makeid(function(shortUrl){
+    var addUrl = new URLStore({url:req.body.url,shortened:shortUrl});
+    addUrl.save(function(err){
+      if(err)
+        console.log(err);
+      res.json({url:req.body.url,shortened:shortUrl});
+    });
+  });
 })
 
 router.get('/pageNotFound',function(req,res){
@@ -52,12 +57,18 @@ router.get('/details/:id',function(req,res){
 router.get('/:id',function(req,res){
   console.log(req.params.id);
   var id = req.params.id;
-  if(table.hasOwnProperty(id.toString())){
-    console.log('redirecting to '+table[id.toString()]);
-    res.redirect(table[id.toString()])
-  }else{
-    res.redirect('/pageNotFound')
-  }
+  URLStore.where({shortened:req.params.id}).find(function(err,obj){
+    if(err){
+      console.log('Error performing database operation');
+      res.send('Unable to query db');
+    }
+    if(obj.length != 0){
+      console.log('redirecting to '+obj[0].url);
+      res.redirect(obj[0].url);
+    }else{
+      res.redirect('/pageNotFound')
+    }
+  })
 })
 
 module.exports = router;
