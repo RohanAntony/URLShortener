@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var URLStore = require('../models/URLStore.js');
 
 var SIZE_OF_STRING = 7;
+var numberOfGifs = 5;
 
 var table = {};
 
@@ -30,10 +31,6 @@ router.get('/', function(req, res) {
   res.render('index');
 });
 
-router.get('/shorten',function(req,res){
-  res.render('shorten');
-})
-
 router.post('/shorten',function(req,res){
   makeid(function(shortUrl){
     var addUrl = new URLStore({url:req.body.url,shortened:shortUrl});
@@ -46,7 +43,11 @@ router.post('/shorten',function(req,res){
 })
 
 router.get('/pageNotFound',function(req,res){
-  res.send('Page Not Found :::::::::::::::::::');
+  res.redirect('/');
+})
+
+router.get('/pageNotFound/:id',function(req,res){
+  res.render('pageNotFound',{randomValue:parseInt(Math.random()*numberOfGifs),shortenedUrl:'http://localhost:3000/'+req.params.id});
 })
 
 router.get('/details/:id',function(req,res){
@@ -66,7 +67,7 @@ router.get('/:id',function(req,res){
       console.log('redirecting to '+obj[0].url);
       res.redirect(obj[0].url);
     }else{
-      res.redirect('/pageNotFound')
+      res.redirect('/pageNotFound/'+req.params.id)
     }
   })
 })

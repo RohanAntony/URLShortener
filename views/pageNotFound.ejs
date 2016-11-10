@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <!-- Site Properties -->
+  <title>Shorten Me</title>
+  <link rel="stylesheet" type="text/css" href="/bower_components/semantic/dist/semantic.min.css">
+  <style type="text/css">
+
+    .masthead.segment {
+      min-height: 600px;
+      padding: 1em 0em;
+    }
+
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+
+    .masthead h1.ui.header {
+      margin-top: 1.7em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
+
+    .generated {
+      font-size:2em;
+      display: inline;
+      font-weight: bolder;
+    }
+  </style>
+
+</head>
+<body ng-app="short">
+
+<!-- Page Contents -->
+<div class="pusher">
+  <div class="ui inverted vertical masthead center aligned segment">
+
+    <div class="ui text container" ng-controller="shortCtrl">
+      <h1 class="ui inverted header">
+        404 : Page Not Found
+      </h1>
+      <h2 class="ui inverted header">
+        The dreaded 404 has destroyed the link you are searching for!!
+      </h2>
+      <img src="/gif/run<%= randomValue %>.gif" alt="" />
+      <br>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+
+</html>

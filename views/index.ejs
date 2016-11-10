@@ -10,6 +10,8 @@
   <title>Shorten Me</title>
   <link rel="stylesheet" type="text/css" href="/bower_components/semantic/dist/semantic.min.css">
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/app/app.js"></script>
   <style type="text/css">
 
     .masthead.segment {
@@ -45,7 +47,7 @@
   </style>
 
 </head>
-<body>
+<body ng-app="short">
 
 <!-- Page Contents -->
 <div class="pusher">
@@ -60,7 +62,7 @@
       </div>
     </div>
 
-    <div class="ui text container">
+    <div class="ui text container" ng-controller="shortCtrl">
       <h1 class="ui inverted header">
         Shorten Me
       </h1>
@@ -68,15 +70,22 @@
         May the "link" be with you
       </h2>
       <br>
-      <div class="ui icon fluid labeled large input">
-        <input placeholder="Paste URL" type="text">
-        <i class="inverted circular play link icon"></i>
+      <div class="ui icon fluid large action input">
+        <input placeholder="Paste URL" type="text" ng-model="url">
+        <div class="ui icon button" ng-click="convert()">
+          <i class="compress big icon"></i>
+        </div>
       </div>
 
       <div class="ui inverted centered message">
-        <div class="content">
-          <a class="generated">http://localhost:3000/</a>
+        <div class="content" ng-show="successStatus">
+          <a class="generated" href="/{{ shortenedUrl }}">http://localhost:3000/{{ shortenedUrl }}</a>
           <i class="inverted circular external share link big icon copyIcon"></i>
+        </div>
+        <div class="content" ng-show="errorStatus">
+          <p>
+            Error in generating shortened URL
+          </p>
         </div>
       </div>
 
