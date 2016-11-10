@@ -33,7 +33,7 @@ router.get('/', function(req, res) {
 
 router.post('/shorten',function(req,res){
   makeid(function(shortUrl){
-    var addUrl = new URLStore({url:req.body.url,shortened:shortUrl});
+    var addUrl = new URLStore({url:req.body.url,shortened:shortUrl,visits:0,details:[]});
     addUrl.save(function(err){
       if(err)
         console.log(err);
@@ -50,9 +50,18 @@ router.get('/pageNotFound/:id',function(req,res){
   res.render('pageNotFound',{randomValue:parseInt(Math.random()*numberOfGifs),shortenedUrl:'http://localhost:3000/'+req.params.id});
 })
 
-router.get('/details/:id',function(req,res){
-  console.log(req.params.id);
-  res.send('Details about URL '+req.params.id);
+router.get('/info/:id',function(req,res){
+  URLStore.where({shortened:req.params.id}).find(function(err,obj){
+    if(err){
+      console.log('Error performing database operation');
+      res.send('Unable to access details');
+    }
+    if(obj.length != 0){
+      res.render('details',{urlObject:obj[0]});
+    }else{
+      res.redirect('/pageNotFound/'+req.params.id)
+    }
+  })
 })
 
 router.get('/:id',function(req,res){
@@ -65,6 +74,24 @@ router.get('/:id',function(req,res){
     }
     if(obj.length != 0){
       console.log('redirecting to '+obj[0].url);
+      var userDetails = {
+        ip:req.ip,
+        ips:req.ips,
+        time:new Date(),
+        headers:{
+          'user-agent':req.get('user-agent'),
+          accept:req.get('accept'),
+          'accept-language':req.get('accept-language'),
+          'accept-encoding':req.get('accept-encoding'),
+          cookie:req.get('cookie'),
+          connection:req.get('connection'),
+          'upgrade-insecure-requests':req.get('upgrade-insecure-requests')
+        }
+      }
+      console.log(req.headers);
+      obj[0].details.push(userDetails);
+      obj[0].visits++;
+      obj[0].save();
       res.redirect(obj[0].url);
     }else{
       res.redirect('/pageNotFound/'+req.params.id)

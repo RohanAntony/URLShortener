@@ -14,6 +14,10 @@
   <script src="/app/app.js"></script>
   <style type="text/css">
 
+    .outputText{
+      text-color:white;
+    }
+
     .masthead.segment {
       min-height: 600px;
       padding: 1em 0em;
@@ -71,7 +75,7 @@
       </h2>
       <br>
       <div class="ui icon fluid large action input">
-        <input placeholder="Paste URL" type="text" ng-model="url">
+        <input placeholder="Paste URL" type="text" ng-model="url" id="url">
         <div class="ui icon button" ng-click="convert()">
           <i class="compress big icon"></i>
         </div>
@@ -79,8 +83,12 @@
 
       <div class="ui inverted centered message">
         <div class="content" ng-show="successStatus">
-          <a class="generated" href="/{{ shortenedUrl }}">http://localhost:3000/{{ shortenedUrl }}</a>
-          <i class="inverted circular external share link big icon copyIcon"></i>
+          <div class="ui icon fluid massive action inverted transparent input">
+            <input class="outputText" type="text" ng-model="shortenedUrl" ng-readonly>
+            <div class="ui inverted icon button" ng-click="open()">
+              <a href="{{shortenedUrl}}" style="color:inherit"><i class="external share big icon"></i></a>
+            </div>
+          </div>
         </div>
         <div class="content" ng-show="errorStatus">
           <p>

@@ -16,7 +16,7 @@ app.controller('shortCtrl',['$scope','$http',function($scope,$http){
     }).then(function successCallback(response){
       $scope.successStatus = true;
       $scope.errorStatus = false;
-      $scope.shortenedUrl = response.data.shortened;
+      $scope.shortenedUrl = 'http://localhost:3000/'+response.data.shortened;
     },function errorCallback(response){
       $scope.errorStatus = true;
       $scope.successStatus = false;
