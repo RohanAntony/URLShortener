@@ -6,14 +6,13 @@ var URLStore = require('../models/URLStore.js');
 
 var SIZE_OF_STRING = 7;
 
-var table = {};
-
 
 let makeid = () => {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for( var i=0; i < SIZE_OF_STRING; i++ )
         text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
     // URLStore.where({shortened:text})
     // .findOne(function(err,obj){
     //   if(err)
@@ -26,6 +25,24 @@ let makeid = () => {
     // })
     // Move this code out of MakeId as it is part of write operation to DB
 }
+
+
+// Testing mongoose functionality
+let addUrl = new URLStore(
+  {
+    url:'https://google.com',
+    shortened:makeid(),
+    visits:0,
+    details:[]
+  }
+);
+
+addUrl.save(function(err){
+  if(err)
+    console.log(err);
+  res.json({url:req.body.url,shortened:shortUrl});
+});
+//End of testing save new objects using mongoose
 
 router.post('/shorten',function(req,res){
   let shortenedURL

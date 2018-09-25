@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/URLShortener');
+
 var URLShort = new mongoose.Schema({
   url:String,
   shortened:String,
