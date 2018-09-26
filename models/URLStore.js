@@ -1,12 +1,9 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/URLShortener');
-
-var URLShort = new mongoose.Schema({
+let urlShort = new mongoose.Schema({
   url:String,
-  shortened:String,
-  visits:Number,
-  details:Array
+  short:String,
+  visits:Number
 })
 
-module.exports = mongoose.model('URLTable',URLShort);
+module.exports = mongoose.model('URLSchema',urlShort);

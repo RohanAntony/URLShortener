@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 
 var URLStore = require('../models/URLStore.js');
 
+//Set the db connection to be used by express Application
+let db = mongoose.connect('mongodb://localhost/URLShortener');
+
 var SIZE_OF_STRING = 7;
 
 
@@ -47,6 +50,7 @@ addUrl.save(function(err){
 router.post('/shorten',function(req,res){
   let shortenedURL
   shortenedURL = makeid();
+  console.log(db)
   // function(shortUrl){
   //   var addUrl = new URLStore({url:req.body.url,shortened:shortUrl,visits:0,details:[]});
   //   addUrl.save(function(err){
