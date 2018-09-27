@@ -37,9 +37,9 @@ let FindURL = (URLToFind, cb) => {
     if(err){
       console.log(err)
       cb(null);
-    }else if(!url){
+    }else if(!url || !url.length){
       console.log('No objects found')
-      cb({})
+      cb(null)
     }else{
       console.log('Found objects ' + url)
       cb(url)

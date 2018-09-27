@@ -1,8 +1,8 @@
 let URLHelper = require('../models/URLHelper.js')
 
 let Sample = {
-  url: 'TestingUrl',
-  short: 'URL1',
+  url: 'Testing',
+  short: 'URL2',
   visits: 0
 }
 

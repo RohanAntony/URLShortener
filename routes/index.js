@@ -6,20 +6,30 @@ var db = require('../models/URLHelper.js');
 var SIZE_OF_STRING = 7;
 
 
-let makeid = () => {
-    //Generate a random id of a predefined length. Keep the length to minimum
-    //Need to update this to a counter to avoid URL collisions
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for( var i=0; i < SIZE_OF_STRING; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
+let makeShortId = () => {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( var i=0; i < SIZE_OF_STRING; i++ )
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
 }
 
-router.post('/shorten',function(req,res){
+let generateNewShortId = (cb) => {
   let shortenedURL
-  shortenedURL = makeid();
-  res.end('You have reached /shorten')
+  shortenedURL = makeShortId();
+  db.FindURLById(shortenedURL, (obj) => {
+    if(obj){
+      shortenedURL = generateNewShortId(cb)
+    }else{
+      cb(shortenedURL)
+    }
+  })
+}
+
+router.all('/shorten',function(req,res){
+  generateNewShortId((shortUrl) => {
+    res.end('Shortened URL: ' + shortUrl)
+  })
 })
 
 router.get('/info/:id',function(req,res){
