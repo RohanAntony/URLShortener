@@ -56,10 +56,8 @@ let RemoveURL = (URLToRemove, cb) => {
   })
 }
 
-var URLHelper = {
-  SaveURL: SaveURL,
-  FindURL: FindURL,
-  RemoveURL: RemoveURL
+module.exports = {
+  Save: SaveURL,
+  Find: FindURL,
+  Remove: RemoveURL
 }
-
-export default URLHelper
