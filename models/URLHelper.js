@@ -11,7 +11,7 @@ let urlShort = new mongoose.Schema({
 
 URLSchema = mongoose.model('URLSchema',urlShort);
 
-let SaveURL = (URLToSave, cb) => {
+let InsertURL = (URLToSave, cb) => {
   if(!URLToSave)
     return;
   if(!cb)
@@ -66,22 +66,43 @@ let RemoveURL = (URLToRemove, cb) => {
 let FindURLById = (Id, cb) => {
   if(!Id)
     return;
-  if(!cb)
-    cb = () => {
-      console.log('No callback passed for FindURLById call! Returning due to missing callback')
-      return;
-    }
+  if(!cb){
+    console.log('No callback passed for FindURLById call! Returning due to missing callback')
+    return;
+  }
   FindURL({
     short: Id
   }, (obj) => {
       cb(obj)
   })
+}
 
+let SaveURL = (url, id, cb) => {
+  if(!url || !id)
+    return;
+  if(!cb){
+    console.log('No callback passed for SaveURL call! Returning due to missing callback')
+    return;
+  }
+  let URLObj = {
+    url: url,
+    short: id,
+    visits: 0
+  }
+  InsertURL(URLObj, (obj) => {
+    if(!obj){
+      console.log('Error while saving new URL object')
+    }else{
+      console.log('Successfully saved url object ' + obj)
+    }
+    cb(obj)
+  })
 }
 
 module.exports = {
-  Save: SaveURL,
+  Insert: InsertURL,
   Find: FindURL,
   Remove: RemoveURL,
-  FindURLById: FindURLById
+  FindURLById: FindURLById,
+  SaveURL: SaveURL
 }

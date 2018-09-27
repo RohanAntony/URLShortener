@@ -1,15 +1,15 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-var db = require('../models/URLHelper.js');
+let db = require('../models/URLHelper.js');
 
-var SIZE_OF_STRING = 7;
+let SIZE_OF_STRING = 7;
 
 
 let makeShortId = () => {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for( var i=0; i < SIZE_OF_STRING; i++ )
+  let text = "";
+  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( let i=0; i < SIZE_OF_STRING; i++ )
       text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 }
@@ -18,6 +18,7 @@ let generateNewShortId = (cb) => {
   let shortenedURL
   shortenedURL = makeShortId();
   db.FindURLById(shortenedURL, (obj) => {
+    console.log(obj)
     if(obj){
       shortenedURL = generateNewShortId(cb)
     }else{
@@ -26,9 +27,18 @@ let generateNewShortId = (cb) => {
   })
 }
 
-router.all('/shorten',function(req,res){
+
+router.post('/shorten',function(req,res){
   generateNewShortId((shortUrl) => {
-    res.end('Shortened URL: ' + shortUrl)
+    let reqUrl = req.body.url
+    console.log(req.body)
+    db.SaveURL(reqUrl, shortUrl, (obj) => {
+      if(!obj){
+        res.end('Error while generating the shortened URL')
+      }else{
+        res.end('<a href="http://localhost:3000/' + shortUrl + '">http://localhost:3000/' + shortUrl + '</a>')
+      }
+    })
   })
 })
 

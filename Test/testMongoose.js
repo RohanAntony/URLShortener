@@ -6,7 +6,7 @@ let Sample = {
   visits: 0
 }
 
-URLHelper.Save(Sample, (obj)=> {
+URLHelper.Insert(Sample, (obj)=> {
   console.log(obj)
   URLHelper.Find(Sample, (obj)=> {
     console.log(obj)
@@ -17,4 +17,8 @@ URLHelper.Save(Sample, (obj)=> {
       })
     })
   })
+})
+
+URLHelper.SaveURL('http://google.com', '10101', (obj) => {
+  console.log(obj)
 })
