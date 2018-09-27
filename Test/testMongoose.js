@@ -1,5 +1,5 @@
-let mongoose = require('mongoose')
 let URLSchema = require('../models/URLStore.js')
+
 
 let testConnection = (cb) => {
   mongoose.connect('mongodb://localhost/test')

@@ -21,7 +21,6 @@ Website to shorten any given URL.
 - The returned value will be the reference for the url
 
 # ToDo
-- Implement the testcases for each module using testrunners.
 - Implement a GET method along with the POST API to shorten the URL.
 - Generate only a backend API on this repo
 - Update the random url generator to a defined set of url generation to avoid collision
