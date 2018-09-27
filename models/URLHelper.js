@@ -1,12 +1,16 @@
 let mongoose = require('mongoose')
-let URLStore = require('./URLStore.js');
-
-let URLSchema = URLStore
 
 mongoose.connect('mongodb://localhost/test')
 let db = mongoose.connection;
 
-//implement mongoose helper functions
+let urlShort = new mongoose.Schema({
+  url:String,
+  short:String,
+  visits:Number
+})
+
+URLSchema = mongoose.model('URLSchema',urlShort);
+
 let SaveURL = (URLToSave, cb) => {
   if(!URLToSave)
     return;
@@ -33,7 +37,10 @@ let FindURL = (URLToFind, cb) => {
     if(err){
       console.log(err)
       cb(null);
-    }else {
+    }else if(!url){
+      console.log('No objects found')
+      cb({})
+    }else{
       console.log('Found objects ' + url)
       cb(url)
     }
@@ -56,8 +63,25 @@ let RemoveURL = (URLToRemove, cb) => {
   })
 }
 
+let FindURLById = (Id, cb) => {
+  if(!Id)
+    return;
+  if(!cb)
+    cb = () => {
+      console.log('No callback passed for FindURLById call! Returning due to missing callback')
+      return;
+    }
+  FindURL({
+    short: Id
+  }, (obj) => {
+      cb(obj)
+  })
+
+}
+
 module.exports = {
   Save: SaveURL,
   Find: FindURL,
-  Remove: RemoveURL
+  Remove: RemoveURL,
+  FindURLById: FindURLById
 }

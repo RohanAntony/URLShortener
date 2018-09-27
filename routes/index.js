@@ -1,11 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require('mongoose');
 
-var URLStore = require('../models/URLStore.js');
-
-//Set the db connection to be used by express Application
-let db = mongoose.connect('mongodb://localhost/URLShortener');
+var db = require('../models/URLHelper.js');
 
 var SIZE_OF_STRING = 7;
 
