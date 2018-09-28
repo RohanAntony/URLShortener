@@ -34,9 +34,19 @@ router.post('/shorten',function(req,res){
     console.log(req.body)
     db.SaveURL(reqUrl, shortUrl, (obj) => {
       if(!obj){
-        res.end('Error while generating the shortened URL')
+        res.json({
+          status: 'ERROR',
+          message: 'Error while generating the request URL'
+        })
       }else{
-        res.end('<a href="http://localhost:3000/' + shortUrl + '">http://localhost:3000/' + shortUrl + '</a>')
+        res.json({
+          status: 'SUCCESS',
+          data: {
+            url: reqUrl,
+            shortUrl: shortUrl,
+            visits: 0
+          }
+        })
       }
     })
   })
@@ -52,7 +62,22 @@ router.get('/:id',function(req,res){
   // Implement a function to get redirectedURL for shortenedURLId
   // Increase the visit count of url object using a function
   // Add IP, Browser details for the update function
-  res.end('You have reached ' + req.params.id)
+  db.FindURLById(req.params.id, (obj) =>{
+    if(!obj){
+      res.json({
+        status: 'ERROR',
+        message: 'Unable to fetch the URL for the given ID'
+      })
+    }else{
+      var resJSON = {
+        status: 'SUCCESS',
+        data: {
+          url: obj[0].url
+        }
+      }
+      res.json(resJSON)
+    }
+  })
 })
 
 module.exports = router;
